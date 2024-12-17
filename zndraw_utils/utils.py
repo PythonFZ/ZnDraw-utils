@@ -1,19 +1,6 @@
-# import enum
-
 import ase
 import ase.optimize
-# import numpy as np
-# import rdkit2ase
-# import tqdm
-# from ase import units
-# from ase.calculators.lj import LennardJones
 from ase.calculators.singlepoint import SinglePointCalculator
-# from ase.md.langevin import Langevin
-# from mace.calculators import mace_mp
-# from pydantic import Field
-# from zndraw import Extension, ZnDraw
-# from zndraw_utils.base import Models
-
 
 
 def freeze_copy_atoms(ref: ase.Atoms) -> ase.Atoms:
