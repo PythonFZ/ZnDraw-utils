@@ -14,3 +14,4 @@ class Models(str, enum.Enum):
 
     MACE_MP_0 = "MACE-MP-0"
     LJ = "LJ"
+    null = "null"

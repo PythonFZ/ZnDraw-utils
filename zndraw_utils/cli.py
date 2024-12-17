@@ -17,36 +17,39 @@ class Methods(str, Enum):
 
 @app.command()
 def zndraw_register(
-    name: Methods = typer.Argument(
-        ..., help="The name of the extension."
-    ),  # TODO: make this a list
-    url: str = typer.Argument(
-        ..., help="The URL of the ZnDraw Instance."
-    ),  # TODO: make all of them Options
-    token: str | None = typer.Argument(None, help="The token."),
-    auth_token: str | None = typer.Argument(None, help="The authentication token."),
-    public: bool = typer.Argument(True),
+    names: list[Methods] = typer.Argument(..., help="The name of the extension."),
+    url: str = typer.Option(
+        ..., help="The URL of the ZnDraw Instance.", envvar="ZNDRAW_UTILS_URL"
+    ),
+    token: str | None = typer.Option(
+        None, help="The token.", envvar="ZNDRAW_UTILS_TOKEN"
+    ),
+    auth_token: str | None = typer.Option(
+        None, help="The authentication token.", envvar="ZNDRAW_UTILS_AUTH_TOKEN"
+    ),
+    public: bool = typer.Option(True),
 ):
     from mace.calculators import mace_mp
 
     calc = mace_mp()
     vis = ZnDraw(url=url, auth_token=auth_token, token=token)
+    for name in set(names):
+        if name == Methods.md:
+            from zndraw_utils.md import MolecularDynamics
 
-    if name == Methods.md:
-        from zndraw_utils.md import MolecularDynamics
+            vis.register(MolecularDynamics, run_kwargs={"calc": calc}, public=public)
+            typer.echo("Registered MolecularDynamics extension")
+        elif name == Methods.relax:
+            from zndraw_utils.relax import StructureOptimization
 
-        vis.register(MolecularDynamics, run_kwargs={"calc": calc}, public=public)
-        typer.echo("Registered MolecularDynamics extension")
-    elif name == Methods.relax:
-        from zndraw_utils.relax import StructureOptimization
+            vis.register(
+                StructureOptimization, run_kwargs={"calc": calc}, public=public
+            )
+            typer.echo("Registered StructureOptimization extension")
+        elif name == Methods.smiles:
+            from zndraw_utils.smiles import AddFromSMILES
 
-        vis.register(StructureOptimization, run_kwargs={"calc": calc}, public=public)
-    elif name == Methods.smiles:
-        from zndraw_utils.smiles import AddFromSMILES
-
-        vis.register(AddFromSMILES, public=public)
-    else:
-        typer.echo("Unknown extension")
-        typer.Exit(code=1)
+            vis.register(AddFromSMILES, public=public)
+            typer.echo("Registered AddFromSMILES extension")
 
     vis.socket.wait()
