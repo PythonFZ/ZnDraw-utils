@@ -12,8 +12,6 @@ class Methods(str, Enum):
     smiles = "smiles"
 
 
-# TODO: support envvar
-
 
 @app.command()
 def zndraw_register(
