@@ -7,9 +7,11 @@ app = typer.Typer()
 
 
 class Methods(str, Enum):
+    all = "all"
     md = "md"
     relax = "relax"
     smiles = "smiles"
+    solvate = "solvate"
 
 
 
@@ -28,6 +30,8 @@ def zndraw_register(
     public: bool = typer.Option(True),
 ):
     from mace.calculators import mace_mp
+    if names == ["all"]:
+        names = [Methods.md, Methods.relax, Methods.smiles, Methods.solvate]
 
     calc = mace_mp()
     vis = ZnDraw(url=url, auth_token=auth_token, token=token)
@@ -49,5 +53,10 @@ def zndraw_register(
 
             vis.register(AddFromSMILES, public=public)
             typer.echo("Registered AddFromSMILES extension")
+        elif name == Methods.solvate:
+            from zndraw_utils.solvate import Solvate
+
+            vis.register(Solvate, public=public)
+            typer.echo("Registered Solvate extension")
 
     vis.socket.wait()

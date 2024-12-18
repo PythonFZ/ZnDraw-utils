@@ -1,0 +1,6 @@
+services:
+  zndraw-utils:
+    image: pythonf/zndraw-utils:latest
+    command: zndraw-register all
+    environment:
+      - ZNDRAW_UTILS_URL=http://123.456.789.123:5003

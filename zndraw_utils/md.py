@@ -13,10 +13,10 @@ class MolecularDynamics(Extension):
     """Run molecular dynamics in the NVT ensemble using Langevin dynamics."""
 
     model: Models = Models.MACE_MP_0
-    remote_model: str = Field(
-        "",
-        description="Access a model provided via ZnTrack, like `repo@rev:<node-name>`. The model must provide a `get_calculator()` method.",
-    )
+    # remote_model: str = Field(
+    #     "",
+    #     description="Access a model provided via ZnTrack, like `repo@rev:<node-name>`. The model must provide a `get_calculator()` method.",
+    # )
     temperature: float = 300
     time_step: float = 0.5
     n_steps: int = 100

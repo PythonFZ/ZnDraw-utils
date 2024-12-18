@@ -1967,6 +1967,7 @@ version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "ase" },
+    { name = "mace-torch" },
     { name = "rdkit2ase" },
     { name = "tqdm" },
     { name = "typer" },
@@ -1982,6 +1983,7 @@ dev = [
 [package.metadata]
 requires-dist = [
     { name = "ase", specifier = ">=3.23.0" },
+    { name = "mace-torch", specifier = ">=0.3.9" },
     { name = "rdkit2ase", specifier = ">=0.1.4" },
     { name = "tqdm", specifier = ">=4.67.1" },
     { name = "typer", specifier = ">=0.13.1" },
