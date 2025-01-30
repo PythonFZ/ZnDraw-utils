@@ -33,30 +33,35 @@ def zndraw_register(
     if names == ["all"]:
         names = [Methods.md, Methods.relax, Methods.smiles, Methods.solvate]
 
-    calc = mace_mp()
+    calc = None
     vis = ZnDraw(url=url, auth_token=auth_token, token=token)
     for name in set(names):
         if name == Methods.md:
             from zndraw_utils.md import MolecularDynamics
+            if calc is None:
+                calc = mace_mp()
 
             vis.register(MolecularDynamics, run_kwargs={"calc": calc}, public=public)
-            typer.echo("Registered MolecularDynamics extension")
+            typer.echo(f"Registered {name} extension.")
         elif name == Methods.relax:
             from zndraw_utils.relax import StructureOptimization
+            if calc is None:
+                calc = mace_mp()
 
             vis.register(
                 StructureOptimization, run_kwargs={"calc": calc}, public=public
             )
-            typer.echo("Registered StructureOptimization extension")
+            typer.echo(f"Registered {name} extension.")
         elif name == Methods.smiles:
             from zndraw_utils.smiles import AddFromSMILES
 
             vis.register(AddFromSMILES, public=public)
-            typer.echo("Registered AddFromSMILES extension")
+            typer.echo(f"Registered {name} extension.")
         elif name == Methods.solvate:
             from zndraw_utils.solvate import Solvate
 
             vis.register(Solvate, public=public)
-            typer.echo("Registered Solvate extension")
+            typer.echo(f"Registered {name} extension.")
 
+    typer.echo("All requested extensions registered.")
     vis.socket.wait()

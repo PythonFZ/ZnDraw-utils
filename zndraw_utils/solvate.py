@@ -17,6 +17,7 @@ class Solvate(Extension):
     tolerance: float = Field(2.0, description="Tolerance for the solvent")
 
     def run(self, vis: ZnDraw, **kwargs) -> None:
+        vis.log(f"Running {self.__class__.__name__}")
         scene = vis.atoms
         solvent = rdkit2ase.smiles2atoms(self.solvent)
 

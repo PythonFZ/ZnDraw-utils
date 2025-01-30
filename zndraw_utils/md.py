@@ -25,6 +25,7 @@ class MolecularDynamics(Extension):
     upload_interval: int = 10
 
     def run(self, vis: ZnDraw, calc, **kwargs):
+        vis.log(f"Running {self.__class__.__name__}")
         if self.model.value == "LJ":
             calc = LennardJones()
         if self.n_steps > 1000:

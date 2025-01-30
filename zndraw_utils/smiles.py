@@ -12,6 +12,7 @@ class AddFromSMILES(Extension):
     SMILES: str = Field(..., description="SMILES string of the molecule to add")
 
     def run(self, vis: ZnDraw, **kwargs) -> None:
+        vis.log(f"Running {self.__class__.__name__}")
         molecule = rdkit2ase.smiles2atoms(self.SMILES)
 
         scene = vis.atoms

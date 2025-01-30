@@ -17,6 +17,7 @@ class StructureOptimization(Extension):
     upload_interval: int = 10
 
     def run(self, vis: ZnDraw, calc, **kwargs) -> None:
+        vis.log(f"Running {self.__class__.__name__}")
         if self.model.value == "LJ":
             calc = LennardJones()
         optimizer = getattr(ase.optimize, self.optimizer.value)
