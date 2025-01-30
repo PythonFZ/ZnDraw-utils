@@ -16,6 +16,13 @@ class AddFromSMILES(Extension):
         description="Add the molecule to the current scene.",
     )
 
+    @classmethod
+    def model_json_schema(cls):
+        schema = super().model_json_schema()
+        schema["properties"]["add"]["format"] = "checkbox"
+        
+        return schema
+
     def run(self, vis: ZnDraw, **kwargs) -> None:
         vis.log(f"Running {self.__class__.__name__}")
         molecule = rdkit2ase.smiles2atoms(self.SMILES)
@@ -38,4 +45,5 @@ class AddFromSMILES(Extension):
             del scene.connectivity
 
         vis.append(freeze_copy_atoms(scene))
-        vis.bookmarks = vis.bookmarks | {vis.step: "AddFromSMILES"}
+        vis.bookmarks.update({vis.step: "AddFromSMILES"})
+
