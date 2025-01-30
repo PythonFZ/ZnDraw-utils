@@ -1,8 +1,6 @@
-from zndraw import Extension, ZnDraw
 import rdkit2ase
 from pydantic import Field
-
-
+from zndraw import Extension, ZnDraw
 
 
 class Solvate(Extension):

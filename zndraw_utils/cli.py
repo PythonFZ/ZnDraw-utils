@@ -14,7 +14,6 @@ class Methods(str, Enum):
     solvate = "solvate"
 
 
-
 @app.command()
 def zndraw_register(
     names: list[Methods] = typer.Argument(..., help="The name of the extension."),
@@ -30,6 +29,7 @@ def zndraw_register(
     public: bool = typer.Option(True),
 ):
     from mace.calculators import mace_mp
+
     if names == ["all"]:
         names = [Methods.md, Methods.relax, Methods.smiles, Methods.solvate]
 
@@ -38,6 +38,7 @@ def zndraw_register(
     for name in set(names):
         if name == Methods.md:
             from zndraw_utils.md import MolecularDynamics
+
             if calc is None:
                 calc = mace_mp()
 
@@ -45,6 +46,7 @@ def zndraw_register(
             typer.echo(f"Registered {name} extension.")
         elif name == Methods.relax:
             from zndraw_utils.relax import StructureOptimization
+
             if calc is None:
                 calc = mace_mp()
 

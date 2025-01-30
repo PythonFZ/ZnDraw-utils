@@ -1,3 +1,4 @@
+import ase
 import numpy as np
 import rdkit2ase
 from pydantic import Field
@@ -10,12 +11,19 @@ class AddFromSMILES(Extension):
     """Place a molecule from a SMILES at all points."""
 
     SMILES: str = Field(..., description="SMILES string of the molecule to add")
+    add: bool = Field(
+        True,
+        description="Add the molecule to the current scene.",
+    )
 
     def run(self, vis: ZnDraw, **kwargs) -> None:
         vis.log(f"Running {self.__class__.__name__}")
         molecule = rdkit2ase.smiles2atoms(self.SMILES)
 
-        scene = vis.atoms
+        if self.add:
+            scene = vis.atoms
+        else:
+            scene = ase.Atoms()
 
         points = vis.points
         if len(points) == 0:
